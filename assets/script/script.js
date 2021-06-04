@@ -32,7 +32,7 @@ console.log("The schedule hour is now ", hour);
 //this applies this function to all with class time-block
 $(".time-block").each(function () { 
     /*targets this class, splits it's id (by its dash), 'pops' the last bit 
-    and returns that element, and then finally turns string into a number(+)*/
+    and returns that element, and then finally turns that string into a number(+)*/
     var scheduleHour = +$(this).attr("id").split("-").pop();
     // console.log(this);//list of all time-blocks
     // console.log("Time Block ", scheduleHour);
@@ -59,16 +59,17 @@ saveButton.on("click", function(){
     if($(this).prev("textarea").val().trim().length < 1){
         console.log("this is empty");
     } else {
+        //this is the text written in textarea
         var savedTask = $(this).prev("textarea").val();
         console.log(savedTask);
-        //need to create an array that includes parent id
+        //Array that includes parent id
         var savedTaskId = $(this).parent().attr("id");
         console.log(savedTaskId);//success
         var taskIdArray = [savedTask, savedTaskId];
         savedTasksArray.push(taskIdArray)//push array into array
         // savedTasksArray.push(savedTask)//push text into array
         localStorage.setItem("savedTasksArray", JSON.stringify(savedTasksArray));//stringify array and save in local storage
-        console.log(savedTasksArray);//success! got strings in array
+        console.log(savedTasksArray);//success! got array/strings in array
     };
 });
 
@@ -76,32 +77,24 @@ saveButton.on("click", function(){
 
 //Syntax for window load t.ly/Bc0w
 $(window).on("load", function(event){
-    // var textareaLocation = $(this).parent().attr("id");
     event.preventDefault();
-
-    //trying to get the index name out of the arrays first before we place the tasks into the
-    //corresponding textareas
-
-    var savedTasksArray = JSON.parse(localStorage.getItem("savedTasksArray"));//back into object
-    var taskId= $(savedTasksArray).each(function(index) {
-        savedTasksArray[index][1];
-        console.log(savedTasksArray[index][1] + " at index number " + index)//success
-    });
-    
-    // var tempArray = [];
-    // tempArray.push(taskId)
-    // console.log(tempArray);
-
-
-    // if (taskId === textareaLocation) {
-    //     console.log("I am in the right place");
-    // }
-
-    
    
 
-    
+    /*trying to get the index name out of the arrays first 
+    before we place the tasks back into the corresponding textareas*/
+    var savedTasksArray = JSON.parse(localStorage.getItem("savedTasksArray"));//back into object
 
+    var taskId= savedTasksArray.forEach(function(item, index) {
+        savedTasksArray[index][1];
+        console.log(savedTasksArray[index][1] + " at index number " + index)//success
+        //Creating this variable by concatenating the # in front of "hour-n"
+        //and adding textarea at the end to compare the html element of textarea too
+        var selector = "#"+savedTasksArray[index][1] + " textarea";
+        console.log(selector);
+        //This writes the task saved at the array into the correct selector
+        $(selector).text(savedTasksArray[index][0]);
+    });
+    console.log(taskId);
 });
 
    
