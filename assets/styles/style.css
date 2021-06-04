@@ -21,6 +21,12 @@ textarea {
   border-bottom: 10px solid black;
 }
 
+#clock, #currentDay {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color:rgb(173, 75, 75);
+}
+
 .description {
   white-space: pre-wrap;
 }
@@ -63,9 +69,11 @@ textarea {
   border-bottom-right-radius: 15px;
   background-color: #06aed5;
   color: white;
+  height:80px;
 }
 
 .saveBtn i:hover {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
+
