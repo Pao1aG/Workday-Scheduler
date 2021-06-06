@@ -32,6 +32,10 @@ $(".time-block").each(function () {
     } else {
         $(this).addClass("past");
     };
+
+    if (moment().format("dddd") == "Saturday" || moment().format("dddd") == "Sunday") {
+        $(this).addClass("weekend");
+    }
 });
 
 //Local Storage Functions----------------------------------------------

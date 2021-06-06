@@ -63,6 +63,10 @@ textarea {
   color: white;
 }
 
+.weekend {
+  background-color:rgb(176, 157, 214);
+}
+
 .saveBtn {
   border-left: 1px solid black;
   border-top-right-radius: 15px;
