@@ -1,12 +1,10 @@
 //Moment clock (test), dcode on youtube-------------
 var clock = $("#clock");
 setInterval(() => {
-    //get current date and time
-    var now = moment();
-    //this formats the time into two digits for hour and two digits for minutes
-    var humanRead = now.format("hh:mm:a"); 
+    //get current date and time and format to 12hr clock
+    var now = moment().format("hh:mm:a");
     // this updated the text in this div to show current time
-    clock.text("Current time: "+ humanRead);
+    clock.text("Current time: "+ now);
 },1000);
 
 //Display Date------------------
@@ -41,26 +39,27 @@ $(".time-block").each(function () {
 //Event Listener for buttons-------------------
 var saveButton = $(".saveBtn");
 
-var savedTasksArray= [];
-
 saveButton.on("click", function(event){
     event.preventDefault();
     
     //Escaping white spaces found on t.ly/rMxx
     if($(this).prev("textarea").val().trim().length < 1){
         console.log("this is empty");
-    } else {
-        //this is the text written in textarea
-        var savedTask = $(this).prev("textarea").val();
-        console.log($(this).prev("textarea").attr("id"))
-        console.log(savedTask);
-        //New array that includes parent id
+    } else if (localStorage.savedTasksArray != null) {
+        var savedTasksArray = JSON.parse(localStorage.getItem("savedTasksArray"));//back into object
+        var savedTask = $(this).prev("textarea").val(); //this is the text written in textarea
         var savedTaskId = $(this).parent().prop("id");
-        console.log(savedTaskId);//success
+        var taskIdArray = [savedTask, savedTaskId];    //New array that includes parent id
+        savedTasksArray.push(taskIdArray) //push array into savedTasksArray array
+        localStorage.setItem("savedTasksArray", JSON.stringify(savedTasksArray)); //stringify array and save in local storage
+    } else {
+        console.log("there is nothing in the localstorage");
+        var savedTasksArray= [];
+        var savedTask = $(this).prev("textarea").val();
+        var savedTaskId = $(this).parent().prop("id");
         var taskIdArray = [savedTask, savedTaskId];
-        savedTasksArray.push(taskIdArray)//push array into savedTasksArray array
-        localStorage.setItem("savedTasksArray", JSON.stringify(savedTasksArray));//stringify array and save in local storage
-        console.log(savedTasksArray);//success! got array/strings in array
+        savedTasksArray.push(taskIdArray)
+        localStorage.setItem("savedTasksArray", JSON.stringify(savedTasksArray));
     };
 });
 
@@ -80,7 +79,6 @@ $(window).on("load", function(event){
         before placing tasks back into the corresponding textareas*/
         savedTasksArray.forEach(function(item, index) {
             savedTasksArray[index][1];
-            // console.log(savedTasksArray[index][1] + " at index number " + index)//success
             /*Creating this variable by concatenating the # in front of "hour-n"
             and adding textarea at the end to compare the html element of textarea too*/
             var selector = "#"+savedTasksArray[index][1] + " textarea";
@@ -94,24 +92,6 @@ $(window).on("load", function(event){
     };
 });
 
-//Event listener for input on textarea----------------
-
-$("textarea").on("change", function(event) {
-    event.preventDefault();
-
-    console.log("value has been changed");//success
-   
-    var savedTasksArray = JSON.parse(localStorage.getItem("savedTasksArray"));
-    
-    var selectedArea = $(this).parent().attr("id"); //id
-    console.log(selectedArea)//success
-    var textArea = $(this).val(); //text inside 
-    console.log(textArea);//success
-
-    var buttonClicked = $(this).next();
-    // console.log(buttonClicked);
-
-});
 
 
 
