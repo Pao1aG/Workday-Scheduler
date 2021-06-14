@@ -22,8 +22,6 @@ $(".time-block").each(function () {
     /*targets this class, splits it's id (by its dash), 'pops' the last bit 
     and returns that element, and then finally turns that string into a number(+)*/
     var scheduleHour = +$(this).attr("id").split("-").pop();
-    // console.log(this);//list of all time-blocks
-    // console.log("Time Block ", scheduleHour);
 
     if (hour === scheduleHour) {
         $(this).addClass("present");
@@ -96,6 +94,14 @@ $(window).on("load", function(event){
     };
 });
 
+//Function for clearing text
+var clearTasks = document.querySelector("#clear");
+clearTasks.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    localStorage.clear();
+    location.reload();
+})
 
 
 
